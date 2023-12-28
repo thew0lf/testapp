@@ -59,7 +59,6 @@
 
     <main class="form-signin">
         {{ form_start(form, {'attr': {'class': 'needs-validation','novalidate':'novalidate'}}) }}
-
         <h1>Login</h1>
         <div class="form-floating">
             <input type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com" name="{{ field_name(form.user.email) }}" value="{{ field_value(form.user.email) }}" required>
