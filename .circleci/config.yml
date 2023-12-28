@@ -1,0 +1,53 @@
+version: '2.1'
+orbs:
+  aws-cli: circleci/aws-cli@3.1
+  aws-code-deploy: circleci/aws-code-deploy@3.0
+  aws-s3: circleci/aws-s3@4.0
+jobs:
+  build:
+    docker:
+      # version
+      - image: amazonlinux:2023
+
+    steps:
+      - run:
+          name: "Install dependencies"
+          command: yum -y install php-devel php-pear nginx
+      - run: yum -y install docker
+      - run: yum -y install php-mbstring
+      - run: pecl install mongodb
+      - run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
+      - checkout
+      - run:
+          name: "List vendor"
+          command: ls -la .
+      - run:
+          name: "Run composer"
+          command: /usr/bin/bash ./bin/compose.sh
+      - run:
+          name: "Run Unit Tests"
+          command: ./src/bin/phpunit
+
+#      - aws-s3/copy:
+#              auth:
+#                - aws-cli/setup:
+#                    profile_name: $CIRCLE_OIDC-USER
+#                    role_arn: $AWS_CD_S3_ROLE_ARN
+#              from: $AWS_TMP_DIR/docker.zip
+#              profile_name: $CIRCLE_OIDC-USER
+#              to: s3://$AWS_CD_S3_BUCKET
+#
+#      - aws-code-deploy/deploy:
+#          application-name: ticketapp
+#          auth:
+#            - aws-cli/setup:
+#                profile: $CIRCLE_OIDC-USER
+#                role-arn: $AWS_CD_SERVICE_ROLE_ARN
+#          bundle-bucket: $AWS_CD_S3_BUCKET
+#          bundle-key: $AWS_ACCESS_KEY
+#          context: $CIRCLE_OIDC_TOKEN
+#          deployment-group: $AWS_CD_GROUP_NAME
+#          profile: $CIRCLE_OIDC-USER
+#          service-role-arn: $AWS_CD_SERVICE_ROLE_ARN
+
+
