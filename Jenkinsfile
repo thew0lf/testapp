@@ -33,7 +33,6 @@ pipeline {
      steps{
         script {
             sh '/usr/local/bin/docker --debug compose -f docker-compose.yml up -d --build';
-            sh '/usr/local/bin/docker build ggconsult/ticketapp:1.0';
         }
         }
       }
