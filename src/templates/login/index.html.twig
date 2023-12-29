@@ -63,12 +63,16 @@
         <div class="form-floating">
             <input type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com" name="{{ field_name(form.user.email) }}" value="{{ field_value(form.user.email) }}" required>
             <label for="floatingInput">{{ field_label(form.user.email) }}</label>
-            <div class="invalid-feedback">{{ form_errors(form.user.email) }}</div>
+            {% if form_errors(form.user.email) %}
+                <div class="invalid-feedback">{{ form_errors(form.user.email) }}</div>
+            {% endif %}
         </div>
         <div class="form-floating">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="{{ field_name(form.user.password) }}" value="{{ field_value(form.user.password) }}" required>
             <label for="floatingInput">{{ field_label(form.user.password) }}</label>
-            <div class="invalid-feedback">{{ form_errors(form.user.password) }}</div>
+            {% if form_errors(form.user.password) %}
+                <div class="invalid-feedback">{{ form_errors(form.user.password) }}</div>
+            {%  endif %}
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2023</p>

@@ -56,6 +56,14 @@
                 font-size: 3.5rem;
             }
         }
+        .invalid-feedback {
+            display: block!important;
+
+        }
+        ul{
+            display: inline-block;
+            list-style-type: none
+        }
     </style>
 
     <main class="form-signin">
@@ -66,17 +74,23 @@
         <div class="form-floating">
             <input type="text" class="form-control" id="floatingInputName" placeholder="John Smith" name="{{ field_name(form.user.name) }}" value="{{ field_value(form.user.name) }}" required>
             <label for="floatingInput">{{ field_label(form.user.name) }}</label>
+            {% if form_errors(form.user.name) %}
             <div class="invalid-feedback">{{ form_errors(form.user.name) }}</div>
+            {% endif %}
         </div>
         <div class="form-floating">
             <input type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com" name="{{ field_name(form.user.email) }}" value="{{ field_value(form.user.email) }}" required>
             <label for="floatingInput">{{ field_label(form.user.email) }}</label>
+            {% if form_errors(form.user.email) %}
             <div class="invalid-feedback">{{ form_errors(form.user.email) }}</div>
+            {% endif %}
         </div>
         <div class="form-floating">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="{{ field_name(form.user.password) }}" value="{{ field_value(form.user.password) }}" required>
             <label for="floatingInput">{{ field_label(form.user.password) }}</label>
-            <div class="invalid-feedback">Invalid{{ form_errors(form.user.password) }}</div>
+            {% if form_errors(form.user.password) %}
+            <div class="invalid-feedback">{{ form_errors(form.user.password) }}</div>
+            {%  endif %}
         </div>
         <div class="checkbox mb-3">
             <label>
