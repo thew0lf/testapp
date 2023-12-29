@@ -38,8 +38,9 @@ class LoginController extends AbstractController
                 return $this->redirect('/dashboard');
             }
 
-            return $this->render('login/index.html.twig', array('form' => $form->createView()));
+
         }
+        return $this->render('login/index.html.twig', array('form' => $form->createView()));
     }
     #[Route('/logout', methods:['GET','POST','HEAD'])]
     public function logout(DocumentManager $dm,Request $request)

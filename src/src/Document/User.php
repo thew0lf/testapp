@@ -5,6 +5,7 @@ namespace App\Document;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[MongoDB\Document(collection: 'users')]
 #[MongoDB\Unique(fields: 'email')]
@@ -19,6 +20,7 @@ class User
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
     #[Assert\Email]
+    #[Assert\Unique]
     protected ?string $email = null;
 
     #[MongoDB\Field(type: 'string')]
