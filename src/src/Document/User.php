@@ -9,6 +9,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[MongoDB\Document(collection: 'users')]
 #[MongoDB\Unique(fields: 'email')]
+#[UniqueEntity(
+    fields:'email',
+    message: 'This email already has an account.'
+)]
 class User
 {
     /**
