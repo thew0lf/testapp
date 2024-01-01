@@ -2,22 +2,17 @@
 // src/Document/User.php
 namespace App\Document;
 
-use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
+use App\Repository\UserRepository;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[MongoDB\Document(collection: 'users')]
+
+#[MongoDB\Document( collection: 'users')]
 #[MongoDB\Unique(fields: 'email')]
-#[UniqueEntity(
-    fields:'email',
-    message: 'This email already has an account.'
-)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @MongoDB\Id
-     */
     #[MongoDB\Id]
     protected string $id;
 
@@ -33,11 +28,16 @@ class User
 
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
+    protected ?string $cryptPassword = null;
+
+    #[MongoDB\Field(type: 'string')]
+    #[Assert\NotBlank]
     protected ?string $name = null;
 
     #[MongoDB\Field(type: 'date')]
     protected $createdAt = null;
-
+    #[MongoDB\Field(type: 'collection')]
+    private array $roles = [];
     public function getId(): string
     {
         return $this->id;
@@ -58,10 +58,9 @@ class User
         return $this->password;
     }
 
-    // stupid simple encryption (please don't copy it!)
     public function setPassword(?string $password): void
     {
-        $this->password = sha1($password);
+        $this->password = $password;
     }
 
     public function getName(): ?string
@@ -85,9 +84,52 @@ class User
     /**
      * @param mixed $createdAt
      */
-    public function setCreatedAt($createdAt = new \DateTime('now'))
+    public function setCreatedAt($createdAt = new \DateTime('now')): self
     {
         $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getCryptPassword(): ?string
+    {
+        return $this->cryptPassword;
+    }
+
+    public function setCryptPassword(?string $cryptPassword): void
+    {
+        $this->cryptPassword = $cryptPassword;
     }
 
 

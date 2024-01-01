@@ -5,6 +5,7 @@ namespace App\Form\Type;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
@@ -38,7 +39,7 @@ class UserType extends AbstractType
                         ],
                     'constraints'=> [new Email()]]
                     )//make unique doctrine mongodb docs are down
-                ->add('password', TextType::class, ['required'=>true,
+                ->add('password', PasswordType::class, ['required'=>true,
                 'label' => 'Password',
                 'attr' => [
                     'placeholder' => 'Password',

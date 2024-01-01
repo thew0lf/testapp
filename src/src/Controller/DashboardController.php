@@ -15,12 +15,6 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(Request $request,DocumentManager $dm): Response
     {
-
-        $userId = $request->getSession()->get('logged-in');//change to security-bundle / doctrine bundle docs down
-        if(!$userId){
-            return $this->redirect('/login');
-        }
-
         $users = $dm->createQueryBuilder(User::class)
             ->sort('createdAt','-1')
             ->getQuery()
