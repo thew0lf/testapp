@@ -30,34 +30,5 @@ jobs:
       - run:
           name: "Run Unit Tests"
           command: cd src/; ./vendor/bin/phpunit tests/
-
-#      - aws-s3/copy:
-#              auth:
-#                - aws-cli/setup:
-#                    profile_name: $CIRCLE_OIDC-USER
-#                    role_arn: $AWS_CD_S3_ROLE_ARN
-#              from: $AWS_TMP_DIR/docker.zip
-#              profile_name: $CIRCLE_OIDC-USER
-#              to: s3://$AWS_CD_S3_BUCKET
-#
-#      - aws-code-deploy/deploy:
-#          application-name: ticketapp
-#          auth:
-#            - aws-cli/setup:
-#                profile: $CIRCLE_OIDC-USER
-#                role-arn: $AWS_CD_SERVICE_ROLE_ARN
-#          bundle-bucket: $AWS_CD_S3_BUCKET
-#          bundle-key: $AWS_ACCESS_KEY
-#          context: $CIRCLE_OIDC_TOKEN
-#          deployment-group: $AWS_CD_GROUP_NAME
-#          profile: $CIRCLE_OIDC-USER
-#          service-role-arn: $AWS_CD_SERVICE_ROLE_ARN
-#      - aws-ecr/build-and-push-image:
-#          repo: "${AWS_RESOURCE_NAME_PREFIX}"
-#          tag: "${CIRCLE_SHA1}"
-#      - aws-ecs/deploy-service-update:
-#          requires:
-#            - aws-ecr/build-and-push-image
-#          family: "${AWS_RESOURCE_NAME_PREFIX}-service"
-#          cluster: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
-#          container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX}-service,tag=${CIRCLE_SHA1}"
+#      - run:
+#          name: "Deploy To CodeDeploy using ORBs"

@@ -1682,3 +1682,14 @@
 192.168.65.1 - - [02/Jan/2024:04:25:38 +0000] "GET /_wdt/e7c0af HTTP/1.1" 200 21668 "http://localhost/dashboard" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 
+192.168.65.1 - - [02/Jan/2024:14:55:35 +0000] "GET / HTTP/1.1" 499 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:14:55:39 +0000] "GET / HTTP/1.1" 200 56099 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:14:55:44 +0000] "GET /_wdt/b86bf6 HTTP/1.1" 200 18728 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:14:59:11 +0000] "GET / HTTP/1.1" 200 56099 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:14:59:11 +0000] "GET /_wdt/efa648 HTTP/1.1" 200 18723 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:15:12:57 +0000] "GET / HTTP/1.1" 200 56099 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:15:12:58 +0000] "GET /_wdt/37de2e HTTP/1.1" 200 18723 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:15:13:00 +0000] "GET /registration HTTP/1.1" 200 57017 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:15:13:00 +0000] "GET /_wdt/206bb9 HTTP/1.1" 200 20163 "http://localhost/registration" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:15:13:13 +0000] "GET /registration HTTP/1.1" 200 57006 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+192.168.65.1 - - [02/Jan/2024:15:13:13 +0000] "GET /_wdt/33685e HTTP/1.1" 200 20161 "http://localhost/registration" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"

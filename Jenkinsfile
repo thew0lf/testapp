@@ -33,6 +33,7 @@ pipeline {
      steps{
         script {
             sh '/usr/local/bin/docker --debug compose -f docker-compose.yml up -d --build';
+
         }
         }
       }
