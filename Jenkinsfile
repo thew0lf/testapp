@@ -6,7 +6,6 @@ pipeline {
           steps {
             script{
                 echo "add tools for testing like composer"
-
             }
           }
     }
