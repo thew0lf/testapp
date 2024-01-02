@@ -8,7 +8,6 @@ pipeline {
                 echo "add tools for testing like composer"
 
             }
-
           }
     }
     // Tests
