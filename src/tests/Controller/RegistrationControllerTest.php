@@ -22,5 +22,7 @@ class RegistrationControllerTest extends WebTestCase
        $this->assertResponseStatusCodeSame(302);
        $this->assertResponseRedirects('/dashboard');
    }
+   //add additional test cases like testLoginForm
+
 
 }
