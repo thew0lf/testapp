@@ -15,7 +15,7 @@ pipeline {
       steps{
         script {
           echo "Add necessary build scripts"
-          sh   'cd src; ./bin/compose.sh'
+          sh   'cd src; /usr/bin/php composer.phar update'
         }
       }
     }
