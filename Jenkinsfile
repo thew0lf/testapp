@@ -41,10 +41,11 @@ pipeline {
            sh 'docker push ggconsult/testapp'
         }
     }
+
+    }
     post{
-        always {
-            sh 'docker logout'
+            always {
+                sh 'docker logout'
+            }
         }
-    }
-    }
 }
