@@ -8,13 +8,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         /** Create a form out of two Types */
         $builder->add('user', UserType::class)
-                ->add('terms', CheckboxType::class, ['property_path' => 'termsAccepted','label_attr' => [
+                ->add('terms', CheckboxType::class, [
+                    'property_path' => 'termsAccepted','label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch',
-                ]])
-                ;
+                ]]);
     }
 }

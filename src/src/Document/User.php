@@ -2,7 +2,6 @@
 // src/Document/User.php
 namespace App\Document;
 
-use App\Repository\UserRepository;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

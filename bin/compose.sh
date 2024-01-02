@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 cd ./src
-/usr/bin/php composer.phar update
+php composer.phar update

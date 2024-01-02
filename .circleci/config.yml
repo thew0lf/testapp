@@ -29,7 +29,7 @@ jobs:
           command: /usr/bin/bash ./bin/compose.sh
       - run:
           name: "Run Unit Tests"
-          command: ./src/bin/phpunit
+          command: cd src/; ./vendor/bin/phpunit tests/
 
 #      - aws-s3/copy:
 #              auth:
