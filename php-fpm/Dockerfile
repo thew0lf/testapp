@@ -11,6 +11,9 @@ RUN apk del --purge make g++ autoconf libtool \
 RUN cd /usr/local/etc/php/conf.d/ && \
   echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-ram-limit.ini
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+
 WORKDIR /var/www
+
 EXPOSE 9000
+
 CMD php-fpm
