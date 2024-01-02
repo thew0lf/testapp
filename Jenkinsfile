@@ -23,7 +23,7 @@ pipeline {
       steps{
         script {
           echo "Running Tests";
-          #sh 'vendor/bin/phpunit ./tests';
+          //sh 'vendor/bin/phpunit ./tests';
 
         }
       }
