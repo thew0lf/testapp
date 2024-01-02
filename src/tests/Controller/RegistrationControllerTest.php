@@ -14,7 +14,7 @@ class RegistrationControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/registration');
         $form = $crawler->filter('main form')->form([
         'registration[user][name]' => 'Test Case User',
-        'registration[user][email]' => uniqid('et-').'@test.org',//et- for removal
+        'registration[user][email]' => uniqid('et-').'@test.org',//et- for removal [soft-delete / delete]
         'registration[user][password]' => 'MyPass!',
         'registration[terms]' => true,
     ]);
