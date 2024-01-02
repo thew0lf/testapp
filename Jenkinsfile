@@ -15,7 +15,7 @@ pipeline {
       steps{
         script {
           echo "Add necessary build scripts"
-         // sh   './bin/compose.sh'
+          sh   './bin/compose.sh'
         }
       }
     }
