@@ -38,7 +38,7 @@ pipeline {
     //deploy to circleci for testing.. or
     stage('Deploy') {
         steps {
-           sh 'docker push lloydmatereke/jenkins-docker-hub'
+           sh 'docker push ggconsult/testapp'
         }
     }
     post{
