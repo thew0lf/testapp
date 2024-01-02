@@ -16,36 +16,33 @@ pipeline {
 
           }
     }
-
     // Tests
     stage('Build') {
       steps{
         script {
-          echo "Build Docker File"
-          sh 'docker build -t ggconsult/testapp .'
+          echo "Add necessary build scripts"
+
         }
       }
     }
-    //
-    stage('Login') {
+    stage('Test') {
       steps{
         script {
           echo "Running Tests";
-          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          //sh 'vendor/bin/phpunit ./tests';
+
         }
       }
     }
     //deploy to circleci for testing.. or
     stage('Deploy') {
-        steps {
-           sh 'docker push ggconsult/testapp'
+     steps{
+        script {
+            sh '/usr/local/bin/docker --debug compose -f docker-compose.yml up -d --build';
+
         }
-    }
+        }
+      }
 
     }
-    post{
-            always {
-                sh 'docker logout'
-            }
-        }
 }
