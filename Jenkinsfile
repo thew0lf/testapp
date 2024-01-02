@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+      }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+      }
     stages {
     //Add any tools
     stage('Tools') {
@@ -14,29 +20,30 @@ pipeline {
     stage('Build') {
       steps{
         script {
-          echo "Add necessary build scripts"
-
+          echo "Build Docker File"
+          sh 'docker build -t lloydmatereke/jenkins-docker-hub .'
         }
       }
     }
-    stage('Test') {
+    //
+    stage('Login') {
       steps{
         script {
           echo "Running Tests";
-          //sh 'vendor/bin/phpunit ./tests';
-
+          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
         }
       }
     }
     //deploy to circleci for testing.. or
     stage('Deploy') {
-     steps{
-        script {
-            sh '/usr/local/bin/docker --debug compose -f docker-compose.yml up -d --build';
-
+        steps {
+           sh 'docker push lloydmatereke/jenkins-docker-hub'
         }
+    }
+    post{
+        always {
+            sh 'docker logout'
         }
-      }
-
+    }
     }
 }
