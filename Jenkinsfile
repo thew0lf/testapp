@@ -16,12 +16,13 @@ pipeline {
 
           }
     }
+
     // Tests
     stage('Build') {
       steps{
         script {
           echo "Build Docker File"
-          sh 'docker build -t lloydmatereke/jenkins-docker-hub .'
+          sh 'docker build -t ggconsult/testapp .'
         }
       }
     }
