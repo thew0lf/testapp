@@ -17,7 +17,8 @@ class RegistrationControllerTest extends WebTestCase
         'registration[user][email]' => uniqid('et-').'@test.org',//et- for removal [soft-delete / delete]
         'registration[user][password]' => 'MyPass!',
         'registration[terms]' => true,
-    ]);
+
+            ]);
        $client->submit($form);
        $this->assertResponseStatusCodeSame(302);
        $this->assertResponseRedirects('/dashboard');
