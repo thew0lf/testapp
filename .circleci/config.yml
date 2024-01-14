@@ -11,6 +11,7 @@ jobs:
       - run:
           name: "Install dependencies"
           command: echo "running alpine"
+      - run: apk add jq
       - docker/install-docker:
           install-dir: /usr/bin
       - docker/install-dockerize:
