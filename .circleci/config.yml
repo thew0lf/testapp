@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: amazonlinux:2023
+      - image: amazonlinux
     steps:
       - run:
           name: "Install dependencies"
