@@ -25,13 +25,14 @@ jobs:
       - run:
           name: "Run composer"
           command: echo "Composer"
-      - run: bin/compose.sh
+      #- run: bin/compose.sh
       - run:
           name: "List vendor"
           command: ls -la .
       - run:
           name: "Run Unit Tests"
-          command: echo "Unit Test"
+          command: cd src; vendor/bin/phpunit ./tests
+
       - run:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
