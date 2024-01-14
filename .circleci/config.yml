@@ -4,15 +4,14 @@ orbs:
 jobs:
   build:
     docker:
+      - image: php:8.2-cli
       - image: nginx:alpine
-      - image: cimg/php:8.2
       - image: php:8.2-fpm-alpine
       - image: mongo:latest
     steps:
       - run:
           name: "Install dependencies"
           command: echo "running alpine"
-          requires: setup_remote_docker
           #command: yum update
       #- run: yum -y install systemd docker
       #- run: curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && /usr/local/bin/docker-compose version
