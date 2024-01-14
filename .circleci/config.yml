@@ -10,7 +10,7 @@ jobs:
           name: "Install dependencies"
           command: echo "running alpine"
       - run: apk add coreutils busybox-extras curl-dev openssl-dev jq git make g++ autoconf rabbitmq-c-dev libtool tzdata docker openrc && 
-              mkdir -p /run/openrc && touch /run/openrc/softlevel && rc-update add docker boot && service docker restart &&
+              mkdir -p /run/openrc && touch /run/openrc/softlevel && rc-update add docker boot &&
               docker pull mongodb/mongodb-community-server && run --name mongo -d mongodb/mongodb-community-server:latest
       - run: apk add pecl install mongodb && docker-php-ext-enable mongodb
         #      - docker/install-docker
