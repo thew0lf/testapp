@@ -23,14 +23,26 @@ jobs:
       #- run: yum -y install php-devel php-pear nginx
       #- run: yum -y install php-mbstring
       - run:
-          name: "Wait On DB"
-          command: dockerize -wait tcp://localhost:27017 -timeout 1m
-      - run: pecl install mongodb
+          name: Wait for DB
+          command: |
+            N=20
+            while [ $N -gt 0 ]
+            do
+              if $(mongosh --eval "printjson(db.serverStatus())"  > /dev/null); then
+                echo "Connected to Mongo!"
+                exit 0
+              fi
+              echo "Not connected; retrying"
+              N=$(( $N - 1 ))
+              sleep 1
+            done
+            exit 1
+      #- run: pecl install mongodb
 #      -  run: apk apk --no-cache add \
 #                  add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
 #                  && pecl install mongodb \
 #                  && docker-php-ext-enable mongodb
-      - run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
+      #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - run: echo "127.0.0.1	mongo" >> /etc/hosts
       - run: cat /etc/hosts
       - run:
