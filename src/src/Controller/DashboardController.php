@@ -19,6 +19,7 @@ class DashboardController extends AbstractController
             ->sort('createdAt','-1')
             ->getQuery()
             ->execute();
+
         return $this->render('dashboard/index.html.twig', [
             'users'=>$users,
         ]);
