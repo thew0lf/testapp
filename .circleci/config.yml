@@ -39,4 +39,4 @@ workflows:
       - build
       - test:
           requires:
-            "build"
+            - build
