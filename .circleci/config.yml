@@ -9,8 +9,8 @@ jobs:
           command: yum update
       - run: yum -y install php-devel php-pear nginx
       - run: yum -y install docker
-      - run: curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose &&\  
-              docker-compose version
+      - run: curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/bin/docker-compose &&\
+            /usr/local/bin/docker-compose version
       - run: service docker start
       - run: yum -y install docker-compose-plugin
       - run: yum -y install php-mbstring
