@@ -1,0 +1,83 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@2.4.0
+jobs:
+  build:
+    docker:
+      - image: php:8.2-fpm-alpine
+    steps:
+      - run:
+          name: "Install dependencies"
+          command: echo "running alpine"
+      - run: apk add coreutils busybox-extras curl-dev openssl-dev jq git make g++ autoconf rabbitmq-c-dev libtool tzdata docker openrc &&
+          mkdir -p /run/openrc && touch /run/openrc/softlevel && rc-update add docker boot && dockerd &&
+          docker pull mongodb/mongodb-community-server && run --name mongo -d mongodb/mongodb-community-server:latest
+      - run: apk add pecl install mongodb && docker-php-ext-enable mongodb
+          #      - docker/install-docker
+          #      - docker/install-dockerize
+        #command: yum update
+      #- run: yum -y install systemd docker
+      #- run: curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && /usr/local/bin/docker-compose version
+      #- run: systemctl start docker
+      - checkout
+      #- run: docker-machine start dev
+      #- run: docker-compose build && docker-compose up -d
+      #- run: yum -y install php-devel php-pear nginx
+      #- run: yum -y install php-mbstring
+      - run:
+          name: Wait for DB
+          command: |
+            N=60
+            while [ $N -gt 0 ]
+            do
+              if $(mongosh --eval "printjson(db.serverStatus())"  > /dev/null); then
+                echo "Connected to Mongo!"
+                exit 0
+              fi
+              echo "Not connected; retrying"
+              N=$(( $N - 1 ))
+              sleep 1
+            done
+            exit 1
+      #- run: pecl install mongodb
+      #      -  run: apk apk --no-cache add \
+      #                  add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
+      #                  && pecl install mongodb \
+      #                  && docker-php-ext-enable mongodb
+      #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
+      - run: echo "127.0.0.1	mongo" >> /etc/hosts
+      - run: cat /etc/hosts
+      - run:
+          name: "List Directory"
+          command: cd src/src && ls -la .
+      - run:
+          name: "Run composer"
+          command: cd src && ls -la && php composer.phar update
+      - run:
+          name: "Run Unit Tests"
+          command: cd src && pwd && vendor/bin/phpunit tests
+      - run:
+          name: "Deploy To CodeDeploy using ORBs"
+          command: echo "Deployed"
+  deploy:
+    docker:
+      - image: amazonlinux:2023
+    steps:
+      - run: echo "deploy"
+  mongodb:
+    docker:
+      - image: mongo:latest
+    steps:
+      - run: echo "deploy"
+workflows:
+  build_test_deploy:
+    jobs:
+      - mongodb
+      - build:
+          requires:
+            - mongodb
+      - deploy:
+          requires:
+            - mongodb
+            - build
+

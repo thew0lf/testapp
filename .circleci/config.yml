@@ -4,9 +4,8 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/php:8.2-browsers
+      - image: circleci/php
     steps:
-
       - run:
           name: Install Docker Compose
           environment:
@@ -30,7 +29,7 @@ jobs:
 
             # In this example, we have a "contacts" service, and
             # we are trying to check, via `dockerize`, if the service is ready.
-            docker container run --network container:circleci-demo-docker_contacts_1 \
+            docker container run --network container:testapp \
               docker.io/jwilder/dockerize \
               -wait http://localhost:80/healthcheck \
               -wait-retry-interval 2s \
@@ -44,7 +43,7 @@ jobs:
 workflows:
   build_test_deploy:
     jobs:
-      - build:
+      - build
       - deploy:
           requires:
             - build
