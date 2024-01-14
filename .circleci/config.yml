@@ -9,17 +9,15 @@ jobs:
           command: yum update
       - run: yum -y install systemd docker
       - run: curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose && /usr/bin/docker-compose version
-      - run: reboot
-      - run: systemctl start docker
+      #- run: systemctl start docker
+      - run: docker-compose build && docker-compose up -d
       - run: yum -y install php-devel php-pear nginx
-      - run: yum -y install docker-compose-plugin
       - run: yum -y install php-mbstring
       - run: pecl install mongodb
       - run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - run: echo "127.0.0.1	mongo" >> /etc/hosts
       - run: cat /etc/hosts
       - checkout
-      - run: docker-compose build && docker-compose up -d
       - run:
           name: "List Directory"
           command: cd src/src && ls -la .
