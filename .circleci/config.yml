@@ -13,6 +13,7 @@ jobs:
       - run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - run: echo "127.0.0.1	mongo" >> /etc/hosts
       - run: cat /etc/hosts
+      - run: systemctl start mongod
       - checkout
       - run:
           name: "List Directory"
