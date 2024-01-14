@@ -21,7 +21,9 @@ jobs:
       #- run: bin/compose.sh
       - run:
           name: "Run Unit Tests"
-          command: ~src/vendor/bin/phpunit ./vendor/tests
+          paths:
+            - ~src/vendor
+          command: ./bin/phpunit ./tests
       - run:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
