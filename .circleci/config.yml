@@ -5,12 +5,12 @@ jobs:
   build:
     docker:
       - image: php:8.2-fpm-alpine
-      - image: mongo:latest
     steps:
+      - run:  echo ‘http://dl-cdn.alpinelinux.org/alpine/latest-stable/main’ >> /etc/apk/repositories &&  echo ‘http://dl-cdn.alpinelinux.org/alpine/latest-stable/community’ >> /etc/apk/repositories
       - run:
           name: "Install dependencies"
           command: echo "running alpine"
-      - run: apk add busybox-extras curl-dev openssl-dev jq git make g++ autoconf rabbitmq-c-dev libtool tzdata docker openrc && pecl install mongodb && docker-php-ext-enable mongodb
+      - run: apk add busybox-extras curl-dev openssl-dev jq git make g++ autoconf rabbitmq-c-dev libtool tzdata mongodb mongodb-tools docker openrc && pecl install mongodb && docker-php-ext-enable mongodb
 #      - docker/install-docker
 #      - docker/install-dockerize
           #command: yum update
@@ -57,15 +57,15 @@ jobs:
       - run:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
-  test:
+  deploy:
     docker:
       - image: amazonlinux:2023
     steps:
-      - run: echo "test"
+      - run: echo "deploy"
 workflows:
-  build_and_test:
+  build_test_deploy:
     jobs:
       - build
-      - test:
+      - deploy:
           requires:
             - build
