@@ -1,11 +1,6 @@
 version: '3'
-orbs:
-  aws-cli: circleci/aws-cli@3.1
-  aws-code-deploy: circleci/aws-code-deploy@3.0
-  aws-s3: circleci/aws-s3@4.0
-  aws-eks: circleci/aws-eks@2.2.0
 jobs:
-  build:
+  "build-project":
     docker:
       - image: amazonlinux:2023
     steps:
@@ -14,13 +9,13 @@ jobs:
           command: yum -y install php-devel php-pear nginx
       - run: yum -y install docker
       - run: yum -y install php-mbstring
-      #- run: pecl install mongodb
-      #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
+        #- run: pecl install mongodb
+        #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - checkout
       - run:
           name: "List vendor"
           command: ls -la .
-  test:
+  "test-project":
     docker:
       - image: amazonlinux:2023
     working_directory: ~/src
@@ -38,8 +33,9 @@ jobs:
       - run:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
-  workflows:
-    build_and_test:
-      jobs:
-        - build
-        - test
+workflows:
+  version: 3
+  build:
+    jobs:
+      - "build-project"
+      - "test-project"
