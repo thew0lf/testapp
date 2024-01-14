@@ -9,10 +9,7 @@ jobs:
       - run:
           name: "Install dependencies"
           command: echo "running alpine"
-      - run: apk add coreutils busybox-extras curl-dev openssl-dev jq git make g++ autoconf rabbitmq-c-dev libtool tzdata docker openrc && 
-              mkdir -p /run/openrc && touch /run/openrc/softlevel && rc-update add docker boot && dockerd &&
-              docker pull mongodb/mongodb-community-server && run --name mongo -d mongodb/mongodb-community-server:latest
-      - run: apk add pecl install mongodb && docker-php-ext-enable mongodb
+      - run: apk add coreutils busybox-extras curl-dev openssl-dev jq git make g++ autoconf rabbitmq-c-dev libtool tzdata docker openrc && pecl install mongodb && docker-php-ext-enable mongodb
         #      - docker/install-docker
 #      - docker/install-dockerize
           #command: yum update
