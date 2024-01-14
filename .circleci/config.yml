@@ -27,7 +27,7 @@ jobs:
             N=60
             while [ $N -gt 0 ]
             do
-              if $(mongosh --eval "printjson(db.serverStatus())"  > /dev/null); then
+              if $(php -r "echo MongoClient::VERSION"  > /dev/null); then
                 echo "Connected to Mongo!"
                 exit 0
               fi
