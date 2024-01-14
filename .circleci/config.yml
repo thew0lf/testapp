@@ -21,6 +21,9 @@ jobs:
           name: "List vendor"
           command: ls -la .
   test:
+    docker:
+      - image: amazonlinux:2023
+    working_directory: ~/src
     steps:
       - run:
           name: "Run composer"
@@ -36,9 +39,7 @@ jobs:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
   workflows:
-    build-workflow:
+    build_and_test:
       jobs:
-        - run:
-          name: "Build Section"
-          command: echo "run build"
         - build
+        - test
