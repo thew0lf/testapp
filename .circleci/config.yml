@@ -5,8 +5,8 @@ jobs:
   build:
     docker:
       - image: nginx:alpine
-      - image: php:8.2-fpm-alpine
       - image: php:8.2-cli
+      - image: php:8.2-fpm-alpine
       - image: mongo:latest
     steps:
       - run:
