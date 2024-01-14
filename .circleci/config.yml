@@ -31,7 +31,7 @@ jobs:
           command: ls -la .
       - run:
           name: "Run Unit Tests"
-          command: cd src/; ./vendor/bin/phpunit ./tests
+          command: cd ./src; ./vendor/bin/phpunit ./tests
 
       - run:
           name: "Deploy To CodeDeploy using ORBs"
