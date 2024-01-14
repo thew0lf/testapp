@@ -7,7 +7,6 @@ jobs:
       - image: nginx:alpine
       - image: php:8.2-fpm-alpine
       - image: mongo:latest
-      - image: docker
     steps:
       - run:
           name: "Install dependencies"
@@ -21,10 +20,11 @@ jobs:
       #- run: docker-compose build && docker-compose up -d
       #- run: yum -y install php-devel php-pear nginx
       #- run: yum -y install php-mbstring
-      #- run: pecl install mongodb
-      -  run: apk add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
-                  && pecl install mongodb \
-                  && docker-php-ext-enable mongodb
+      - run: pecl install mongodb
+#      -  run: apk apk --no-cache add \
+#                  add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
+#                  && pecl install mongodb \
+#                  && docker-php-ext-enable mongodb
       - run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - run: echo "127.0.0.1	mongo" >> /etc/hosts
       - run: cat /etc/hosts
