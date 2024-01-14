@@ -13,7 +13,7 @@ jobs:
         #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - checkout
       - run:
-          name: "List vendor"
+          name: "List Directory"
           command: ls -la .
       - run:
           name: "Run composer"
@@ -21,9 +21,7 @@ jobs:
       #- run: bin/compose.sh
       - run:
           name: "Run Unit Tests"
-          paths:
-            - ~src/vendor
-          command: ./bin/phpunit ./tests
+          command: cd ~src/vendor && pwd && ./bin/phpunit ./tests
       - run:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
