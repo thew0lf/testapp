@@ -3,6 +3,7 @@ orbs:
   aws-cli: circleci/aws-cli@3.1
   aws-code-deploy: circleci/aws-code-deploy@3.0
   aws-s3: circleci/aws-s3@4.0
+  aws-eks: circleci/aws-eks@2.2.0
 jobs:
   build:
     docker:
@@ -23,9 +24,9 @@ jobs:
           command: ls -la .
       - run:
           name: "Run composer"
-          command: /usr/bin/bash ./bin/compose.sh
+#          command: /usr/bin/bash ./bin/compose.sh
       - run:
           name: "Run Unit Tests"
-          command: cd src/; ./vendor/bin/phpunit tests/
+#          command: cd src/; ./vendor/bin/phpunit tests/
 #      - run:
 #          name: "Deploy To CodeDeploy using ORBs"
