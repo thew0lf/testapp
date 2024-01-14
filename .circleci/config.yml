@@ -66,7 +66,7 @@ jobs:
       - run: echo "deploy"
   mongodb:
     docker:
-      - image: mongodb:latest
+      - image: mongo:latest
     steps:
       - run: echo "deploy"
 workflows:
