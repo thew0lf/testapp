@@ -12,11 +12,6 @@ jobs:
         #- run: pecl install mongodb
         #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - checkout
-  test:
-    docker:
-      - image: amazonlinux:2023
-    steps:
-      - checkout
       - run:
           name: "List vendor"
           command: ls -la .
@@ -30,6 +25,11 @@ jobs:
       - run:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
+  test:
+    docker:
+      - image: amazonlinux:2023
+    steps:
+      - run: echo "test"
 workflows:
   build_and_test:
     jobs:
