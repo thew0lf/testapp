@@ -2,6 +2,12 @@ version: 2.1
 orbs:
   docker: circleci/docker@2.4.0
 jobs:
+  mongo:
+    - image: mongo:latest
+  steps:
+    - run:
+      name: "install mongo"
+      command: echo "install"
   build:
     docker:
       - image: php:8.2-fpm-alpine
@@ -67,7 +73,10 @@ jobs:
 workflows:
   build_test_deploy:
     jobs:
-      - build
+      - build:
+          requires:
+            -mongo
       - deploy:
           requires:
+            - mongo
             - build
