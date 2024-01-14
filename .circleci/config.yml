@@ -6,7 +6,8 @@ jobs:
     steps:
       - run:
           name: "Install dependencies"
-          command: yum -y install php-devel php-pear nginx
+          command: yum update
+      - run: yum -y install php-devel php-pear nginx
       - run: yum -y install docker
       - run: yum -y install docker-compose-plugin
       - run: yum -y install php-mbstring
