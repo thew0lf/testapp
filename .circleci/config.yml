@@ -4,14 +4,13 @@ orbs:
 jobs:
   build:
     docker:
-      - image: php:8.2-cli
       - image: php:8.2-fpm-alpine
       - image: mongo:latest
     steps:
       - run:
           name: "Install dependencies"
           command: echo "running alpine"
-      - run: apk add jq
+      - run: apk add busybox-extras curl-dev openssl-dev jq git make g++ autoconf rabbitmq-c-dev libtool tzdata && pecl install mongodb && docker-php-ext-enable mongodb
       - docker/install-docker:
           install-dir: /usr/bin
       - docker/install-dockerize:
