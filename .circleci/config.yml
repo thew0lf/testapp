@@ -14,8 +14,8 @@ jobs:
           command: yum -y install php-devel php-pear nginx
       - run: yum -y install docker
       - run: yum -y install php-mbstring
-      - run: pecl install mongodb
-      - run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
+      #- run: pecl install mongodb
+      #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - checkout
       - run:
           name: "List vendor"
@@ -38,4 +38,7 @@ jobs:
   workflows:
     build-workflow:
       jobs:
-        -build
+        - run:
+          name: "Build Section"
+          command: echo "run build"
+        - build
