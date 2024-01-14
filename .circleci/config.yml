@@ -11,6 +11,8 @@ jobs:
       - run: yum -y install php-mbstring
       - run: pecl install mongodb
       - run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
+      - run: echo "127.0.0.1	mongo" >> /etc/hosts
+      - run: cat /etc/hosts
       - checkout
       - run:
           name: "List Directory"
