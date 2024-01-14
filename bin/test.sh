@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-
-./src/vendor/bin/phpunit ./src/tests
+cd src && \
+vendor/bin/phpunit ./src/tests
