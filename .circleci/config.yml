@@ -17,8 +17,7 @@ jobs:
           command: ls -la .
       - run:
           name: "Run composer"
-          command: echo "Composer"
-      #- run: bin/compose.sh
+          command: cd src && ls -la && composer update
       - run:
           name: "Run Unit Tests"
           command: cd src && pwd && vendor/bin/phpunit tests
