@@ -21,21 +21,21 @@ jobs:
       #- run: docker-compose build && docker-compose up -d
       #- run: yum -y install php-devel php-pear nginx
       #- run: yum -y install php-mbstring
-      - run:
-          name: Wait for DB
-          command: |
-            N=60
-            while [ $N -gt 0 ]
-            do
-              if $(php -r "echo MongoClient::VERSION"  > /dev/null); then
-                echo "Connected to Mongo!"
-                exit 0
-              fi
-              echo "Not connected; retrying"
-              N=$(( $N - 1 ))
-              sleep 1
-            done
-            exit 1
+#      - run:
+#          name: Wait for DB
+#          command: |
+#            N=60
+#            while [ $N -gt 0 ]
+#            do
+#              if $(php -r "echo MongoClient::VERSION"  > /dev/null); then
+#                echo "Connected to Mongo!"
+#                exit 0
+#              fi
+#              echo "Not connected; retrying"
+#              N=$(( $N - 1 ))
+#              sleep 1
+#            done
+#            exit 1
       #- run: pecl install mongodb
 #      -  run: apk apk --no-cache add \
 #                  add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
