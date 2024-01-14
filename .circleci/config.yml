@@ -2,12 +2,6 @@ version: 2.1
 orbs:
   docker: circleci/docker@2.4.0
 jobs:
-  mongo:
-    - image: mongo:latest
-  steps:
-    - run:
-      name: "install mongo"
-      command: echo "install"
   build:
     docker:
       - image: php:8.2-fpm-alpine
@@ -70,13 +64,19 @@ jobs:
       - image: amazonlinux:2023
     steps:
       - run: echo "deploy"
+  mongodb:
+    docker:
+      - image: mongodb:latest
+    steps:
+      - run: echo "deploy"
 workflows:
   build_test_deploy:
     jobs:
+      - mongodb
       - build:
           requires:
-            -mongo
+            - mongodb
       - deploy:
           requires:
-            - mongo
+            - mongodb
             - build
