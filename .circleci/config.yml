@@ -7,9 +7,7 @@ orbs:
 jobs:
   build:
     docker:
-      # version
       - image: amazonlinux:2023
-
     steps:
       - run:
           name: "Install dependencies"
@@ -22,11 +20,12 @@ jobs:
       - run:
           name: "List vendor"
           command: ls -la .
+  test:
+    steps:
       - run:
           name: "Run composer"
           command: echo "Composer"
       #- run: bin/compose.sh
-      - working_directory: ./src
       - run:
           name: "List vendor"
           command: ls -la .
@@ -36,3 +35,7 @@ jobs:
       - run:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
+  workflows:
+    build-workflow:
+      jobs:
+        -build
