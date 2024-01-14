@@ -1,6 +1,6 @@
-version: '3'
+version: '2.1'
 jobs:
-  "build-project":
+  project-build:
     docker:
       - image: amazonlinux:2023
     steps:
@@ -12,14 +12,14 @@ jobs:
         #- run: pecl install mongodb
         #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - checkout
-      - run:
-          name: "List vendor"
-          command: ls -la .
-  "test-project":
+  project-test:
     docker:
       - image: amazonlinux:2023
     working_directory: ~/src
     steps:
+      - run:
+          name: "List vendor"
+          command: ls -la .
       - run:
           name: "Run composer"
           command: echo "Composer"
@@ -34,8 +34,7 @@ jobs:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
 workflows:
-  version: 3
   build:
     jobs:
-      - "build-project"
-      - "test-project"
+      - project-build
+      - project-test
