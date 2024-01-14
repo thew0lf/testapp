@@ -20,6 +20,9 @@ jobs:
       #- run: docker-compose build && docker-compose up -d
       #- run: yum -y install php-devel php-pear nginx
       #- run: yum -y install php-mbstring
+      - run:
+          name: "Wait On DB"
+          command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - run: pecl install mongodb
 #      -  run: apk apk --no-cache add \
 #                  add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
