@@ -15,8 +15,8 @@ jobs:
   test:
     docker:
       - image: amazonlinux:2023
-    working_directory: ~/src
     steps:
+      - checkout
       - run:
           name: "List vendor"
           command: ls -la .
@@ -25,11 +25,8 @@ jobs:
           command: echo "Composer"
       #- run: bin/compose.sh
       - run:
-          name: "List vendor"
-          command: ls -la .
-      - run:
           name: "Run Unit Tests"
-          command: ./vendor/bin/phpunit ./tests
+          command: ~src/vendor/bin/phpunit ./vendor/tests
       - run:
           name: "Deploy To CodeDeploy using ORBs"
           command: echo "Deployed"
