@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Wait for DB
           command: |
-            N=20
+            N=60
             while [ $N -gt 0 ]
             do
               if $(mongosh --eval "printjson(db.serverStatus())"  > /dev/null); then
