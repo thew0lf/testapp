@@ -9,24 +9,15 @@ jobs:
     docker:
       # version
       - image: amazonlinux:2023
-
     steps:
       - run:
           name: "Install dependencies"
-          command: yum -y install php-devel php-pear nginx
-      - run: yum -y install docker
-      - run: yum -y install php-mbstring
-      - run: pecl install mongodb
-      - run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - checkout
       - run:
           name: "List vendor"
-          command: ls -la .
       - run:
           name: "Run composer"
-#          command: /usr/bin/bash ./bin/compose.sh
       - run:
           name: "Run Unit Tests"
-#          command: cd src/; ./vendor/bin/phpunit tests/
       - run:
           name: "Deploy To CodeDeploy using ORBs"
