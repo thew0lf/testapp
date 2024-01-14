@@ -4,76 +4,47 @@ orbs:
 jobs:
   build:
     docker:
-      - image: php:8.2-fpm-alpine
+      - image: cimg/php:8.2-browsers
     steps:
+
       - run:
-          name: "Install dependencies"
-          command: echo "running alpine"
-      - run: apk add coreutils busybox-extras curl-dev openssl-dev jq git make g++ autoconf rabbitmq-c-dev libtool tzdata docker openrc && pecl install mongodb && docker-php-ext-enable mongodb
-        #      - docker/install-docker
-#      - docker/install-dockerize
-          #command: yum update
-      #- run: yum -y install systemd docker
-      #- run: curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && /usr/local/bin/docker-compose version
-      #- run: systemctl start docker
-      - checkout
-      #- run: docker-machine start dev
-      #- run: docker-compose build && docker-compose up -d
-      #- run: yum -y install php-devel php-pear nginx
-      #- run: yum -y install php-mbstring
-#      - run:
-#          name: Wait for DB
-#          command: |
-#            N=60
-#            while [ $N -gt 0 ]
-#            do
-#              if $(php -r "echo MongoClient::VERSION"  > /dev/null); then
-#                echo "Connected to Mongo!"
-#                exit 0
-#              fi
-#              echo "Not connected; retrying"
-#              N=$(( $N - 1 ))
-#              sleep 1
-#            done
-#            exit 1
-      #- run: pecl install mongodb
-#      -  run: apk apk --no-cache add \
-#                  add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
-#                  && pecl install mongodb \
-#                  && docker-php-ext-enable mongodb
-      #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
-      - run: echo "127.0.0.1	mongo" >> /etc/hosts
-      - run: cat /etc/hosts
+          name: Install Docker Compose
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
-          name: "List Directory"
-          command: cd src/src && ls -la .
+          name: Build images of services declared in docker-compose.yml
+          command: docker-compose build
       - run:
-          name: "Run composer"
-          command: cd src && ls -la && php composer.phar update
+          name: Start all services declared in docker
+          command: docker-compose up -d
       - run:
-          name: "Run Unit Tests"
-          command: cd src && pwd && vendor/bin/phpunit tests
-      - run:
-          name: "Deploy To CodeDeploy using ORBs"
-          command: echo "Deployed"
+          name: Start docker-compose and verify service(s)
+          command: |
+            # Setting the Docker Compose project name to "circleci-demo-docker" means
+            # the names of our services' containers would be prefixed with "circleci-demo-docker".
+            docker-compose --project testapp up -d
+
+            # In this example, we have a "contacts" service, and
+            # we are trying to check, via `dockerize`, if the service is ready.
+            docker container run --network container:circleci-demo-docker_contacts_1 \
+              docker.io/jwilder/dockerize \
+              -wait http://localhost:80/healthcheck \
+              -wait-retry-interval 2s \
+              -timeout 20s
+
   deploy:
     docker:
       - image: amazonlinux:2023
     steps:
       - run: echo "deploy"
-  mongodb:
-    docker:
-      - image: mongo:latest
-    steps:
-      - run: echo "deploy"
 workflows:
   build_test_deploy:
     jobs:
-      - mongodb
       - build:
-          requires:
-            - mongodb
       - deploy:
           requires:
-            - mongodb
             - build
