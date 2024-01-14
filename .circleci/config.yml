@@ -13,11 +13,12 @@ jobs:
         #- run: echo "extension=mongodb.so" >> /etc/php.d/mongo.ini
       - checkout
   project-test:
+    requires:
+      - project-build
     docker:
       - image: amazonlinux:2023
     working_directory: ~/src
     steps:
-      - checkout
       - run:
           name: "List vendor"
           command: ls -la .
