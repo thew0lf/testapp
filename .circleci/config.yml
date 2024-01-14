@@ -6,16 +6,18 @@ jobs:
     docker:
       - image: nginx:alpine
       - image: php:8.2-fpm-alpine
+      - image: mongo:latest
     steps:
       - run:
           name: "Install dependencies"
-          command: yum update
-      - run: yum -y install systemd docker
+          command: echo "running alpine"
+          #command: yum update
+      #- run: yum -y install systemd docker
       - run: curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose && /usr/bin/docker-compose version
       #- run: systemctl start docker
       - checkout
-      - run: docker-machine start dev
-      - run: docker-compose build && docker-compose up -d
+      #- run: docker-machine start dev
+      #- run: docker-compose build && docker-compose up -d
       #- run: yum -y install php-devel php-pear nginx
       #- run: yum -y install php-mbstring
       - run: pecl install mongodb
