@@ -29,9 +29,9 @@ jobs:
       - run:
           name: "List vendor"
           command: ls -la .
+      - working_directory: ./src
       - run:
           name: "Run Unit Tests"
-          working_directory: ./src
           command: ./vendor/bin/phpunit ./tests
       - run:
           name: "Deploy To CodeDeploy using ORBs"
