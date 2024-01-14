@@ -17,8 +17,6 @@ jobs:
       - image: amazonlinux:2023
     working_directory: ~/src
     steps:
-      - requires:
-          -project-build
       - run:
           name: "List vendor"
           command: ls -la .
@@ -39,4 +37,6 @@ workflows:
   build:
     jobs:
       - project-build
-      - project-test
+      - project-test:
+          requires:
+            -project-build
