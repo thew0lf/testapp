@@ -28,5 +28,5 @@ jobs:
       - run:
           name: "Run Unit Tests"
 #          command: cd src/; ./vendor/bin/phpunit tests/
-#      - run:
-#          name: "Deploy To CodeDeploy using ORBs"
+      - run:
+          name: "Deploy To CodeDeploy using ORBs"
