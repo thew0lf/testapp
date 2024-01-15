@@ -3,7 +3,7 @@ services:
   php-fpm:
     build:
       context: ./php-fpm
-    restart: always
+    restart: unless-stopped
     environment:
       - MONGODB_URL=${MONGODB_URL}
       - MONGODB_DB=${MONGODB_DB}
@@ -13,7 +13,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    restart: always
+    restart: unless-stopped
     depends_on:
       - php-fpm
     ports:
@@ -22,6 +22,7 @@ services:
       - ./src:/var/www
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./logs:/var/log
+
   mongo:
     image: mongo:latest
     restart: unless-stopped
