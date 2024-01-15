@@ -1,6 +1,7 @@
 FROM php:8.2-fpm-alpine
+
 RUN apk add busybox-extras curl-dev openssl-dev
-RUN php -m
+RUN apk update php
 RUN apk --update \
         --no-cache \
         add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip-dev linux-headers libsodium-dev \
