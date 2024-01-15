@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/php
+      - image: php:8.2-fpm-alpine
     steps:
       - checkout
       - run:
