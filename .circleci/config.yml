@@ -13,7 +13,7 @@ jobs:
             COMPOSE_VERSION: '1.29.2'
           command: |
             yum update
-            yum -y install docker docker-compose-plugin
+            yum -y install docker docker-compose-plugin curl
             sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             chmod +x ~/docker-compose
