@@ -4,7 +4,12 @@ RUN apk --update \
         --no-cache \
         add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
     && pecl install mongodb \
-    && docker-php-ext-enable mongodb
+    && docker-php-ext-enable mongodb \
+    && docker-php-ext-enable intl \
+    && docker-php-ext-enable sodium \
+    && docker-php-ext-enable xdebug \
+    && docker-php-ext-enable zip
+
 ENV TZ=UTC
 RUN apk del --purge make g++ autoconf libtool \
     && rm -rf /var/cache/apk/*
