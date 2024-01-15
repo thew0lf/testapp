@@ -7,24 +7,15 @@ RUN apk --update \
     && docker-php-ext-enable mongodb \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
+    && pecl install sodium \
+    && docker-php-ext-enable sodium \
+    && pecl install zip \
+    && docker-php-ext-enable zip \
     && pecl clear-cache \
     && docker-php-ext-configure intl \
         && docker-php-ext-install intl \
         && docker-php-ext-enable intl.so
 RUN php -m
-RUN apk add  php82-sodium php82-zip && \
-    docker-php-ext-enable sodium zip
-
-#    && docker-php-ext-install intl sodium xdebug zip \
-#    && docker-php-ext-configure intl sodium xdebug zip \
-#    && docker-php-ext-enable intl  sodium xdebug zip
-#    && pecl install sodium \
-#    && docker-php-ext-enable sodium \
-#    && pecl install xdebug \
-#    && docker-php-ext-enable xdebug \
-#    && pecl install zip \
-#    && docker-php-ext-enable zip
-
 ENV TZ=UTC
 RUN apk del --purge make g++ autoconf libtool \
     && rm -rf /var/cache/apk/*
