@@ -2,13 +2,12 @@ FROM php:8.2-fpm-alpine
 RUN apk add busybox-extras curl-dev openssl-dev
 RUN apk --update \
         --no-cache \
-        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev linux-headers \
+        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev linux-headers libsodium-dev \
+    && docker-php-ext-enable sodium \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
-    && pecl install sodium \
-    && docker-php-ext-enable sodium \
     && pecl install zip \
     && docker-php-ext-enable zip \
     && pecl clear-cache \
