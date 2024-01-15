@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: php:8.2-fpm-alpine
+      - image: amazonlinux
     steps:
       - checkout
       - run:
