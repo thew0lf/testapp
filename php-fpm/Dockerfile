@@ -6,14 +6,8 @@ RUN apk --update \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
     && pecl clear-cache \
-RUN apk add php82-pecl-intl
-RUN docker-php-ext-enable intl
-RUN apk add php82-pecl-sodium
-RUN docker-php-ext-enable sodium
-RUN apk add php82-pecl-xdebug
-RUN docker-php-ext-enable xdebug
-RUN apk add php82-pecl-zip
-RUN docker-php-ext-enable zip
+RUN apk add php82-intl php82-sodium php82-pecl-xdebug php82-zip
+RUN docker-php-ext-enable intl sodium xdebug zip
 
 #    && docker-php-ext-install intl sodium xdebug zip \
 #    && docker-php-ext-configure intl sodium xdebug zip \
