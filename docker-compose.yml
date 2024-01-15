@@ -10,6 +10,7 @@ services:
       - COMPOSER_MEMORY_LIMIT=-1
     volumes:
       - ./src:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
 
   nginx:
     image: nginx:alpine
