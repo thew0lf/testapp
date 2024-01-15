@@ -8,13 +8,13 @@ RUN apk --update \
     && pecl install intl \
     && docker-php-ext-configure intl \
         && docker-php-ext-install intl \
-        && docker-php-ext-enable intl \
-    && pecl install sodium \
-    && docker-php-ext-enable sodium \
-    && pecl install xdebug \
-    && docker-php-ext-enable xdebug \
-    && pecl install zip \
-    && docker-php-ext-enable zip
+        && docker-php-ext-enable intl
+#    && pecl install sodium \
+#    && docker-php-ext-enable sodium \
+#    && pecl install xdebug \
+#    && docker-php-ext-enable xdebug \
+#    && pecl install zip \
+#    && docker-php-ext-enable zip
 
 ENV TZ=UTC
 RUN apk del --purge make g++ autoconf libtool \
