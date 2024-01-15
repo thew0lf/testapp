@@ -2,7 +2,7 @@ FROM php:8.2-fpm-alpine
 RUN apk add busybox-extras curl-dev openssl-dev
 RUN apk --update \
         --no-cache \
-        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev \
+        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev linux-headers \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
     && pecl install xdebug \
