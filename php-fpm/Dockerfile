@@ -3,11 +3,11 @@ RUN apk add busybox-extras curl-dev openssl-dev
 RUN apk --update \
         --no-cache \
         add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev \
-    && pecl install mongodb \
-    && docker-php-ext-enable mongodb \
-    && docker-php-ext-install intl \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-enable intl
+    && pecl install mongodb intl sodium xdebug zip \
+    && docker-php-ext-enable mongodb intl sodium xdebug zip
+#    && docker-php-ext-install intl sodium xdebug zip \
+#    && docker-php-ext-configure intl sodium xdebug zip \
+#    && docker-php-ext-enable intl  sodium xdebug zip
 #    && pecl install sodium \
 #    && docker-php-ext-enable sodium \
 #    && pecl install xdebug \
