@@ -6,9 +6,9 @@ RUN apk --update \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
     && pecl install intl \
+    && docker-php-ext-install intl \
     && docker-php-ext-configure intl \
-        && docker-php-ext-install intl \
-        && docker-php-ext-enable intl
+    && docker-php-ext-enable intl
 #    && pecl install sodium \
 #    && docker-php-ext-enable sodium \
 #    && pecl install xdebug \
