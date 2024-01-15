@@ -27,8 +27,12 @@ RUN ls -la
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /var/www
-RUN cd src && ls -la && php composer.phar update
-RUN cd src && pwd && vendor/bin/phpunit tests
+
 EXPOSE 9000
 
 CMD php-fpm
+
+RUN echo "composer"
+RUN cd src && ls -la && php composer.phar update
+RUN echo "tests"
+RUN cd src && pwd && vendor/bin/phpunit tests
