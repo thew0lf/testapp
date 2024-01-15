@@ -5,9 +5,13 @@ RUN apk --update \
         add git make g++ autoconf rabbitmq-c-dev libtool tzdata \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
+    && pecl install intl \
     && docker-php-ext-enable intl \
+    && pecl install sodium \
     && docker-php-ext-enable sodium \
+    && pecl install xdebug \
     && docker-php-ext-enable xdebug \
+    && pecl install zip \
     && docker-php-ext-enable zip
 
 ENV TZ=UTC
