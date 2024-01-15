@@ -13,7 +13,6 @@ RUN cd /usr/local/etc/php/conf.d/ && \
 RUN mkdir -p /var/www
 RUN mkdir -p /etc/nginx/
 RUN ls -la
-#COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /var/www

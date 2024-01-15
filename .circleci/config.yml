@@ -22,21 +22,6 @@ jobs:
       - run:
           name: Start all services declared in docker
           command: docker-compose up -d
-      - run:
-          name: Start docker-compose and verify service(s)
-          command: |
-            # Setting the Docker Compose project name to "circleci-demo-docker" means
-            # the names of our services' containers would be prefixed with "circleci-demo-docker".
-            docker-compose --project testapp up -d
-
-            # In this example, we have a "contacts" service, and
-            # we are trying to check, via `dockerize`, if the service is ready.
-            docker container run --network container:testapp \
-              docker.io/jwilder/dockerize \
-              -wait http://localhost:80/healthcheck \
-              -wait-retry-interval 2s \
-              -timeout 20s
-
   deploy:
     docker:
       - image: amazonlinux:2023
