@@ -10,6 +10,7 @@ services:
       - COMPOSER_MEMORY_LIMIT=-1
     volumes:
       - ./src:/var/www
+      - ./nginx:/etc/nginx
 
   nginx:
     image: nginx:alpine
@@ -20,6 +21,7 @@ services:
       - "80:80"
     volumes:
       - ./src:/var/www
+      - ./nginx:/etc/nginx
       - ./logs:/var/log
   mongo:
     image: mongo:latest
