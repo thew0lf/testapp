@@ -3,7 +3,7 @@ RUN apk add busybox-extras curl-dev openssl-dev
 RUN php -m
 RUN apk --update \
         --no-cache \
-        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip linux-headers libsodium-dev \
+        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip-dev linux-headers libsodium-dev \
     && docker-php-ext-enable sodium \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
