@@ -8,7 +8,8 @@ RUN apk --update \
     && pecl clear-cache \
     && docker-php-ext-configure intl \
         && docker-php-ext-install intl \
-        && docker-php-ext-enable intl.so  \
+        && docker-php-ext-enable intl.so
+RUN php -m
 RUN apk add  php82-sodium php82-pecl-xdebug php82-zip && \
     docker-php-ext-enable sodium xdebug zip
 
