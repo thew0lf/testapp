@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: amazonlinux:2
+      - image: amazonlinux
     steps:
       - checkout
       - run:
@@ -14,7 +14,6 @@ jobs:
           command: |
             yum update
             yum -y install docker docker-compose-plugin curl
-            chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             chmod +x ~/docker-compose
             mv ~/docker-compose /usr/local/bin/docker-compose
