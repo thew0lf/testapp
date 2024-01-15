@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: amazonlinux
+      - image: ubuntu
     steps:
       - checkout
       - run:
