@@ -12,6 +12,7 @@ RUN cd /usr/local/etc/php/conf.d/ && \
   echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-ram-limit.ini
 RUN mkdir -p /var/www
 RUN mkdir -p /etc/nginx/
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /var/www
