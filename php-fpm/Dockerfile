@@ -5,13 +5,15 @@ RUN apk --update \
         add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
     && pecl clear-cache \
     && docker-php-ext-configure intl \
         && docker-php-ext-install intl \
         && docker-php-ext-enable intl.so
 RUN php -m
-RUN apk add  php82-sodium php82-pecl-xdebug php82-zip && \
-    docker-php-ext-enable sodium xdebug zip
+RUN apk add  php82-sodium php82-zip && \
+    docker-php-ext-enable sodium zip
 
 #    && docker-php-ext-install intl sodium xdebug zip \
 #    && docker-php-ext-configure intl sodium xdebug zip \
