@@ -13,7 +13,7 @@ jobs:
             COMPOSE_VERSION: '1.29.2'
           command: |
             apt update
-            apt -y install curl
+            apt -y install curl docker
             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             chmod +x ~/docker-compose
             mv ~/docker-compose /usr/local/bin/docker-compose
