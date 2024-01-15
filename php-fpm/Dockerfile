@@ -5,17 +5,15 @@ RUN apk --update \
         add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
-    && pecl install xdebug \
-        && docker-php-ext-enable xdebug \
-    && pecl install sodium \
-        && docker-php-ext-enable sodium \
-    && pecl install sodium \
-        && docker-php-ext-enable sodium \
-    && pecl install zip \
-        && docker-php-ext-enable zip \
-    && pecl install intl \
-        && docker-php-ext-enable intl \
-        && pecl clear-cache \
+    && pecl clear-cache \
+RUN apk add php82-pecl-intl
+RUN docker-php-ext-enable intl
+RUN apk add php82-pecl-sodium
+RUN docker-php-ext-enable sodium
+RUN apk add php82-pecl-xdebug
+RUN docker-php-ext-enable xdebug
+RUN apk add php82-pecl-zip
+RUN docker-php-ext-enable zip
 
 #    && docker-php-ext-install intl sodium xdebug zip \
 #    && docker-php-ext-configure intl sodium xdebug zip \
