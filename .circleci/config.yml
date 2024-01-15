@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: ubuntu
+      - image: ubuntu:jammy
     steps:
       - checkout
       - run:
