@@ -23,7 +23,10 @@ jobs:
           name: Start all services declared in docker
           command: docker-compose up -d
       - run:
-          name: Run Tests
+          name: "Run composer"
+          command: cd src && ls -la && php composer.phar update
+      - run:
+          name: "Run Unit Tests"
           command: cd src && pwd && vendor/bin/phpunit tests
   deploy:
     docker:
