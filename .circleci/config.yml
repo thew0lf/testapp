@@ -23,12 +23,6 @@ jobs:
       - run:
           name: Start all services declared in docker
           command: /usr/local/bin/docker-compose up -d
-      - run:
-          name: "PHP Version"
-          command: php -v
-      - run:
-          name: "PHP Modules"
-          command: php -m
 #      - run:
 #          name: "Run composer"
 #          command: cd src && ls -la && php composer.phar update
