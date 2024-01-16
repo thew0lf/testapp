@@ -36,7 +36,11 @@ RUN apk add --no-cache php82 \
     php82-pdo_mysql \
     php82-pdo_sqlite \
     php82-tokenizer \
-    php82-pecl-redis
+    php82-pecl-redis \
+    php82-pecl-mongodb\
+    php82-pecl-intl\
+    php82-pecl-zip\
+    php82-pecl-\
 
 RUN ln -s /usr/bin/php82 /usr/bin/php
 RUN php composer.phar update
