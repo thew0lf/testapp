@@ -15,50 +15,50 @@ RUN sed -i 's/bin\/ash/bin\/bash/g' /etc/passwd
 
 
 # Installing PHP
-RUN apk add --no-cache php \
-    php-common \
-    php-fpm \
-    php-pdo \
-    php-opcache \
-    php-zip \
-    php-phar \
-    php-iconv \
-    php-cli \
-    php-curl \
-    php-openssl \
-    php-mbstring \
-    php-tokenizer \
-    php-fileinfo \
-    php-json \
-    php-xml \
-    php-xmlwriter \
-    php-simplexml \
-    php-dom \
-    php-pdo_mysql \
-    php-pdo_sqlite \
-    php-tokenizer \
-    php-pecl-redis \
-    php-pecl-mongodb\
-    php-pecl-intl\
-    php-pecl-zip\
-    php-pecl-\
+#RUN apk add --no-cache php \
+#    php-common \
+#    php-fpm \
+#    php-pdo \
+#    php-opcache \
+#    php-zip \
+#    php-phar \
+#    php-iconv \
+#    php-cli \
+#    php-curl \
+#    php-openssl \
+#    php-mbstring \
+#    php-tokenizer \
+#    php-fileinfo \
+#    php-json \
+#    php-xml \
+#    php-xmlwriter \
+#    php-simplexml \
+#    php-dom \
+#    php-pdo_mysql \
+#    php-pdo_sqlite \
+#    php-tokenizer \
+#    php-pecl-redis \
+#    php-pecl-mongodb\
+#    php-pecl-intl\
+#    php-pecl-zip\
+#    php-pecl-\
+#
+#RUN ln -s /usr/bin/php /usr/bin/php
+#
+RUN apk --update \
+        --no-cache \
+        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip-dev linux-headers libsodium-dev php \
+    && docker-php-ext-enable sodium \
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && pecl install zip \
+    && docker-php-ext-enable zip \
+    && pecl clear-cache \
+    && docker-php-ext-configure intl \
+        && docker-php-ext-install intl \
+        && docker-php-ext-enable intl.so \
 
-RUN ln -s /usr/bin/php /usr/bin/php
-#
-#RUN apk --update \
-#        --no-cache \
-#        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip-dev linux-headers libsodium-dev \
-#    && docker-php-ext-enable sodium \
-#    && pecl install mongodb \
-#    && docker-php-ext-enable mongodb \
-#    && pecl install xdebug \
-#    && docker-php-ext-enable xdebug \
-#    && pecl install zip \
-#    && docker-php-ext-enable zip \
-#    && pecl clear-cache \
-#    && docker-php-ext-configure intl \
-#        && docker-php-ext-install intl \
-#        && docker-php-ext-enable intl.so \
-#
 RUN php composer.phar update
 RUN ./vendor/bin/phpunit ./tests
