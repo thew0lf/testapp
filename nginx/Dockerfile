@@ -4,4 +4,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 STOPSIGNAL SIGTERM
 CMD ["nginx", "-g", "daemon off;"]
-RUN cd /var/www/src && vendor/bin/phpunit tests
+WORKDIR /var/www
+RUN php composer.phar update
+RUN ./vendor/bin/phpunit ./tests
