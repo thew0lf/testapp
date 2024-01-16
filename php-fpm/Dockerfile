@@ -16,17 +16,24 @@ RUN apk --update \
     && docker-php-ext-configure intl \
         && docker-php-ext-install intl \
         && docker-php-ext-enable intl.so
+
 ENV TZ=UTC
+
 RUN apk del --purge make g++ autoconf libtool \
     && rm -rf /var/cache/apk/*
+
 RUN cd /usr/local/etc/php/conf.d/ && \
   echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-ram-limit.ini
-RUN mkdir -p /var/www
-RUN mkdir -p /var/log/nginx
-RUN mkdir -p /etc/nginx/
-#COPY nginx.conf /etc/nginx/nginx.conf
 
 RUN ls -la
+
+RUN mkdir -p /var/www
+RUN mkdir -p /var/log/nginx
+#RUN rm -fr /etc/nginx
+#RUN mkdir -p /etc/nginx
+
+#COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /var/www
