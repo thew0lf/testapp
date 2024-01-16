@@ -10,6 +10,7 @@ jobs:
           name: Install Docker Compose
           environment:
             COMPOSE_VERSION: '1.29.2'
+            TZ: 'UTC'
           command: |
             apt-get update && \
             apt-get install -y language-pack-en-base && \
