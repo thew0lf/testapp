@@ -42,9 +42,9 @@ jobs:
       - run:
           name: "Run composer"
           command: cd src && ls -la && php composer.phar update
-#      - run:
-#          name: "Run Unit Tests"
-#          command: cd src && ls -la && pwd && vendor/bin/phpunit tests
+      - run:
+          name: "Docker Execs"
+          command: docker ps
   deploy:
     docker:
       - image: amazonlinux:2023
