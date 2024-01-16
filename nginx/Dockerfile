@@ -44,21 +44,21 @@ RUN apk add --no-cache php \
     php-pecl-\
 
 RUN ln -s /usr/bin/php /usr/bin/php
-
-RUN apk --update \
-        --no-cache \
-        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip-dev linux-headers libsodium-dev \
-    && docker-php-ext-enable sodium \
-    && pecl install mongodb \
-    && docker-php-ext-enable mongodb \
-    && pecl install xdebug \
-    && docker-php-ext-enable xdebug \
-    && pecl install zip \
-    && docker-php-ext-enable zip \
-    && pecl clear-cache \
-    && docker-php-ext-configure intl \
-        && docker-php-ext-install intl \
-        && docker-php-ext-enable intl.so \
-    
+#
+#RUN apk --update \
+#        --no-cache \
+#        add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip-dev linux-headers libsodium-dev \
+#    && docker-php-ext-enable sodium \
+#    && pecl install mongodb \
+#    && docker-php-ext-enable mongodb \
+#    && pecl install xdebug \
+#    && docker-php-ext-enable xdebug \
+#    && pecl install zip \
+#    && docker-php-ext-enable zip \
+#    && pecl clear-cache \
+#    && docker-php-ext-configure intl \
+#        && docker-php-ext-install intl \
+#        && docker-php-ext-enable intl.so \
+#
 RUN php composer.phar update
 RUN ./vendor/bin/phpunit ./tests
