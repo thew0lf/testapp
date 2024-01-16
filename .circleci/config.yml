@@ -12,7 +12,7 @@ jobs:
             COMPOSE_VERSION: '1.29.2'
             TZ: 'UTC'
           command: |
-            apt-get install systemd &&\
+            apt install systemd 
             timedatectl set-timezone UTC
             apt-get update && \
             apt-get install -y language-pack-en-base && \
