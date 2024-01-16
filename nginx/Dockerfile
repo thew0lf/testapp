@@ -4,4 +4,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 STOPSIGNAL SIGTERM
 CMD ["nginx", "-g", "daemon off;"]
-RUN cd src && ls -la && pwd && vendor/bin/phpunit tests
+RUN cd /var/www/src && vendor/bin/phpunit tests
