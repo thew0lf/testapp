@@ -10,10 +10,8 @@ jobs:
           name: Install Docker Compose
           environment:
             COMPOSE_VERSION: '1.29.2'
-            TZ: 'UTC'
+            TZ: 'UTC/GMT'
           command: |
-            apt install systemd 
-            timedatectl set-timezone UTC
             apt-get update && \
             apt-get install -y language-pack-en-base && \
             locale-gen en_US.UTF-8
