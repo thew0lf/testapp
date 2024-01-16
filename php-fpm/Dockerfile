@@ -29,21 +29,11 @@ RUN ls -la
 
 RUN mkdir -p /var/www
 RUN mkdir -p /var/log/nginx
-#RUN rm -fr /etc/nginx
-#RUN mkdir -p /etc/nginx
-
-#COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /var/www
-#COPY /nginx/nginx.conf /etc/nginx/nginx.conf
-#RUN echo "composer"
-#RUN cd /var/www/src && ls -la && php composer.phar update
 
 EXPOSE 9000
 
 CMD php-fpm
-
-#RUN echo "tests"
-#RUN cd src && pwd && vendor/bin/phpunit tests
