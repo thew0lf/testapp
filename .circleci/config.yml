@@ -8,9 +8,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Copy Nginx File
-          command: cp ./nginx/nginx.conf /etc/nginx/nginx.conf
-      - run:
           name: Install Docker Compose
           environment:
             COMPOSE_VERSION: '1.29.2'
@@ -23,6 +20,9 @@ jobs:
       - run:
           name: Build images of services declared in docker-compose.yml
           command: /usr/local/bin/docker-compose build
+      - run:
+          name: Copy Nginx File
+          command: cp ./nginx/nginx.conf /etc/nginx/nginx.conf
       - run:
           name: Start all services declared in docker
           command: /usr/local/bin/docker-compose up -d
