@@ -13,6 +13,7 @@ RUN apk add --no-cache zip unzip curl sqlite nginx supervisor
 RUN apk add bash
 RUN sed -i 's/bin\/ash/bin\/bash/g' /etc/passwd
 
+
 # Installing PHP
 RUN apk add --no-cache php82 \
     php82-common \
