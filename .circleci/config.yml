@@ -19,7 +19,8 @@ jobs:
               export LC_ALL=en_US.UTF-8
               apt -y install ca-certificates curl gnupg lsb-release apt-transport-https software-properties-common &&\
               add-apt-repository ppa:ondrej/php -y && \
-              apt -y install php8.2 php8.2-{xdebug,zip,curl,bz2,mbstring,intl,mongodb} && \ 
+              apt -y install php8.2 
+              apt -y install php8.2-{xdebug,zip,curl,bz2,mbstring,intl,mongodb}
 
       - run:
           name: Install Docker Compose
