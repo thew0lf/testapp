@@ -58,7 +58,7 @@ jobs:
           command: docker ps
       - run:
           name: "Docker Execs"
-          command: /usr/bin/docker exec --workdir /var/www/ testapp-php-fpm-1 sh -c "php vendor/bin/phpunit ./tests"
+          command: /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "php vendor/bin/phpunit ./tests"
   deploy:
     docker:
       - image: amazonlinux:2023
