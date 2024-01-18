@@ -29,9 +29,9 @@ services:
     networks:
       - net
   nginx:
-    image: nginx:alpine
-#    build:
-#      context: ./nginx
+#    image: nginx:alpine
+    build:
+      context: ./nginx
     restart: unless-stopped
     depends_on:
       - php-fpm
