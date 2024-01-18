@@ -7,7 +7,7 @@ jobs:
       - image: ubuntu:jammy
     steps:
       - run:
-            name: Configure System
+            name: "Configure System"
             environment:
               TZ: "UTC"
               DEBIAN_FRONTEND: "noninteractive"
@@ -23,7 +23,7 @@ jobs:
               apt -y install php8.2-{xml,xdebug,zip,curl,bz2,mbstring,intl,mongodb}
 
       - run:
-          name: Install Docker Compose
+          name: "Install Docker Compose"
           environment:
             COMPOSE_VERSION: '1.29.2'
             TZ: 'UTC/GMT'
@@ -36,7 +36,7 @@ jobs:
           name: OS Version
           command: (. /etc/os-release && echo "$VERSION_CODENAME")
       - run:
-          name: Install Docker
+          name: "Install Docker"
           command: |
             apt install apt-transport-https curl gnupg-agent ca-certificates software-properties-common -y
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add
@@ -45,10 +45,10 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Build images of services declared in docker-compose.yml
+          name: "Build images of services declared in docker-compose.yml"
           command: /usr/local/bin/docker-compose build
       - run:
-          name: Start all services declared in docker
+          name: "Start all services declared in docker"
           command: /usr/local/bin/docker-compose up -d
       - run:
           name: "Run composer"
@@ -56,6 +56,14 @@ jobs:
       - run:
           name: "Docker PS"
           command: docker ps
+      - run:
+          name: "List Directory Var"
+          command:
+            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd /var/; ls -la"
+      - run:
+          name: "List Directory Root"
+          command:
+            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd /; ls -la"
       - run:
           name: "Docker PWD"
           command:
