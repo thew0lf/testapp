@@ -59,22 +59,22 @@ jobs:
       - run:
           name: "List Directory Var"
           command:
-            /usr/bin/docker exec --workdir /var/www/ project-nginx-1 sh -c "cd /var/; ls -la"
+            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd /var/; ls -la"
       - run:
           name: "List Directory Root"
           command:
-            /usr/bin/docker exec --workdir /var/www/ project-nginx-1 sh -c "cd /; ls -la"
+            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd /; ls -la"
       - run:
           name: "Docker PWD"
           command:
-            /usr/bin/docker exec --workdir /var/www/ project-nginx-1 sh -c "pwd"
+            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "pwd"
       - run:
           name: "Docker Dir"
           command:
-            /usr/bin/docker exec --workdir /var/www/ project-nginx-1 sh -c "cd /var/www/; ls -la"
+            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd /var/www/; ls -la"
       - run:
           name: "Docker Execs"
-          command: /usr/bin/docker exec --workdir /var/www/ project-nginx-1 sh -c "cd  /var/www/; php ./vendor/bin/phpunit ./tests"
+          command: /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd  /var/www/; php ./vendor/bin/phpunit ./tests"
   deploy:
     docker:
       - image: amazonlinux:2023
