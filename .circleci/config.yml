@@ -58,7 +58,7 @@ jobs:
           command: docker ps
       - run:
           name: "Add Host"
-          command: cat "127.0.0.1	mongo">> /etc/hosts
+          command: echo "127.0.0.1	mongo">> /etc/hosts
       - run:
           name: "Run composer"
           command: cd src && ls -la && php vendor/bin/phpunit ./test
