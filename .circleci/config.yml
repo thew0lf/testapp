@@ -62,11 +62,13 @@ jobs:
           name: "Add Host"
           command: echo "127.0.0.1	mongo">> /etc/hosts
       - run:
+          name: "Run Ping Mongo"
+          command:
+            ping mongo -c 2
+      - run:
           name: "Run Ping Hosts"
           command: ping 127.0.0.1 -c 2
-      - run:
-          name: "Run Ping Mongo"
-          command: ping mongo -c 2
+
       - run:
           name: "Run Unit Tests"
           command: cd src && ls -la && php vendor/bin/phpunit ./tests
