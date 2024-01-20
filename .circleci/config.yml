@@ -61,6 +61,9 @@ jobs:
 #          command: /usr/bin/docker exec  project-php-fpm-1 sh -c "ls -la"
       - run:
           name: "Composer Update"
+          command: /usr/bin/docker exec project-php-fpm-1 sh -c "ls -la;"
+      - run:
+          name: "Composer Update"
           command: /usr/bin/docker exec project-php-fpm-1 sh -c "php composer.phar update"
       - run:
           name: "Run Unit Tests"
