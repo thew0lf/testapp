@@ -11,7 +11,8 @@ services:
     volumes:
       - ./src:/var/www
     networks:
-      - net
+      - frontend
+      - backend
   nginx:
 #    image: nginx:alpine
     build:
@@ -26,7 +27,7 @@ services:
       #- ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./logs:/var/log
     networks:
-      - net
+      - frontend
   mongo:
     image: mongo:latest
     restart: unless-stopped
@@ -42,7 +43,7 @@ services:
     volumes:
       - ./mongo/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
     networks:
-      - net
-      -
+      - backend
 networks:
-  net:
+  frontend:
+  backend:
