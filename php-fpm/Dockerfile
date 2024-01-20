@@ -27,6 +27,8 @@ RUN cd /usr/local/etc/php/conf.d/ && \
 
 RUN ls -la
 
+VOLUME /src
+
 RUN mkdir -p /var/www
 RUN mkdir -p /var/log/nginx
 
