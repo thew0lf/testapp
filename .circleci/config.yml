@@ -52,9 +52,9 @@ jobs:
       - run:
           name: "Start all services declared in docker"
           command: /usr/local/bin/docker-compose up -d
-      - run:
-          name: "Run composer"
-          command: cd src && ls -la && php composer.phar update
+#      - run:
+#          name: "Run composer"
+#          command: cd src && ls -la && php composer.phar update
       - run:
           name: "Docker PS"
           command: docker ps
