@@ -1,0 +1,74 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: ubuntu:jammy
+    steps:
+      - run:
+          name: "Configure System"
+          environment:
+            TZ: "UTC"
+            DEBIAN_FRONTEND: "noninteractive"
+          command: |
+            apt-get update && \
+            apt-get install -y language-pack-en-base && \
+            locale-gen en_US.UTF-8
+            export LANG=en_US.UTF-8
+            export LC_ALL=en_US.UTF-8
+            apt -y install ca-certificates curl gnupg lsb-release apt-transport-https software-properties-common &&\
+            add-apt-repository ppa:ondrej/php -y && \
+            apt -y install php8.2 
+            apt -y install php8.2-{xml,xdebug,zip,curl,bz2,mbstring,intl,mongodb}
+      - run:
+          name: "Install Docker Compose"
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+            TZ: 'UTC/GMT'
+            DEBIAN_FRONTEND: "noninteractive"
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+            echo "127.0.0.1	mongo" >> /etc/hosts
+      - run:
+          name: "Install Docker Compose"
+          command: |
+            apt install apt-transport-https curl gnupg-agent ca-certificates software-properties-common -y
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add
+            add-apt-repository --yes "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+            apt-get docker-ce docker-ce-cli containerd.io -y
+      - checkout
+      - run:
+          name: "Run composer"
+          command: cd src && ls -la && php composer.phar update
+
+      - setup_remote_docker
+      - run:
+          name: "Build images of services declared in docker-compose.yml"
+          command: /usr/local/bin/docker-compose build
+      - run:
+          name: "Start all services declared in docker"
+          command: /usr/local/bin/docker-compose up -d
+      - run:
+          name: "Docker PS"
+          command: docker ps
+      - run:
+          name: "Composer Update"
+          command: /usr/bin/docker exec project-php-fpm-1 sh -c "ls -la;"
+      - run:
+          name: "Composer Update"
+          command: /usr/bin/docker exec project-php-fpm-1 sh -c "php composer.phar update"
+      - run:
+          name: "Run Unit Tests"
+          command: /usr/bin/docker exec project-php-fpm-1 sh -c "./vendor/bin/phpunit ./tests"
+  deploy:
+    docker:
+      - image: amazonlinux:2023
+    steps:
+      - run: echo "deploy"
+workflows:
+  build_test_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build

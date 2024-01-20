@@ -1,4 +1,4 @@
-version: '3.0'
+version: '2.1'
 services:
   php-fpm:
     build:
@@ -9,14 +9,14 @@ services:
       - MONGODB_DB=${MONGODB_DB}
       - COMPOSER_MEMORY_LIMIT=-1
     volumes:
-      - ./src:/var/www
+      - ${PWD}/src:/var/www
     networks:
       - frontend
       - backend
   nginx:
-#    image: nginx:alpine
-    build:
-      context: ./nginx
+    image: nginx:alpine
+#    build:
+#      context: ./nginx
     restart: unless-stopped
     depends_on:
       - php-fpm
@@ -24,7 +24,7 @@ services:
       - "80:80"
     volumes:
       - ./src:/var/www
-      #- ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./logs:/var/log
     networks:
       - frontend

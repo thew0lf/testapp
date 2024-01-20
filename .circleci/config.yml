@@ -1,64 +1,43 @@
 version: 2.1
 orbs:
-  docker: circleci/docker@2.4.0
+  phpunit: stockfiller/phpunit@1.1.0
 jobs:
   build:
     docker:
-      - image: ubuntu:jammy
+      - image: php:8.2-fpm-alpine
     steps:
+      - run: php --version
       - run:
-            name: "Configure System"
-            environment:
-              TZ: "UTC"
-              DEBIAN_FRONTEND: "noninteractive"
-            command: |
-              apt-get update && \
-              apt-get install -y language-pack-en-base && \
-              locale-gen en_US.UTF-8
-              export LANG=en_US.UTF-8
-              export LC_ALL=en_US.UTF-8
-              apt -y install ca-certificates curl gnupg lsb-release apt-transport-https software-properties-common &&\
-              add-apt-repository ppa:ondrej/php -y && \
-              apt -y install php8.2 
-              apt -y install php8.2-{xml,xdebug,zip,curl,bz2,mbstring,intl,mongodb}
-      - run:
-          name: "Install Docker Compose"
+          name: "Configure System"
           environment:
-            COMPOSE_VERSION: '1.29.2'
-            TZ: 'UTC/GMT'
+            TZ: "UTC"
             DEBIAN_FRONTEND: "noninteractive"
           command: |
-            curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-            chmod +x /usr/local/bin/docker-compose
-            echo "127.0.0.1	mongo" >> /etc/hosts
-      - run:
-          name: "Install Docker"
-          command: |
-            apt install apt-transport-https curl gnupg-agent ca-certificates software-properties-common -y
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add
-            add-apt-repository --yes "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-            apt install docker-ce docker-ce-cli containerd.io -y
+            apk --update \
+                --no-cache \
+                add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip-dev linux-headers libsodium-dev docker docker-compose openrc \
+              && docker-php-ext-enable sodium \
+              && pecl install mongodb \
+              && docker-php-ext-enable mongodb \
+              && pecl install xdebug \
+              && docker-php-ext-enable xdebug \
+              && pecl install zip \
+              && docker-php-ext-enable zip \
+              && pecl clear-cache \
+              && docker-php-ext-configure intl \
+              && docker-php-ext-install intl \
+              && docker-php-ext-enable intl.so
       - checkout
-      - run:
-          name: "Run composer"
-          command: cd src && ls -la && php composer.phar update
-
       - setup_remote_docker
       - run:
           name: "Build images of services declared in docker-compose.yml"
-          command: /usr/local/bin/docker-compose build
+          command: docker-compose build
       - run:
           name: "Start all services declared in docker"
-          command: /usr/local/bin/docker-compose up -d
+          command: docker-compose up -d
       - run:
           name: "Docker PS"
           command: docker ps
-#      - run:
-#          name: "List Directory NGINX"
-#          command: /usr/bin/docker exec  project-nginx-1 sh -c "cd  /var/www; ls -la"
-#      - run:
-#          name: "List Directory Root"
-#          command: /usr/bin/docker exec  project-php-fpm-1 sh -c "ls -la"
       - run:
           name: "Composer Update"
           command: /usr/bin/docker exec project-php-fpm-1 sh -c "ls -la;"
@@ -68,21 +47,6 @@ jobs:
       - run:
           name: "Run Unit Tests"
           command: /usr/bin/docker exec project-php-fpm-1 sh -c "./vendor/bin/phpunit ./tests"
-#      - run:
-#          name: "List Directory Root"
-#          command:
-#            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd /; ls -la"
-#      - run:
-#          name: "Docker PWD"
-#          command:
-#            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "pwd"
-#      - run:
-#          name: "Docker Dir"
-#          command:
-#            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd /var/www/; ls -la"
-#      - run:
-#          name: "Docker Execs"
-#          command: /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd  /var/www/; php ./vendor/bin/phpunit ./tests"
   deploy:
     docker:
       - image: amazonlinux:2023
