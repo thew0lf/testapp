@@ -7,6 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class RegistrationControllerTest extends WebTestCase
 {
 
+    public function getRegistrationForm(): void
+    {
+
+    }
+
     public function testRegistrationFormValid(): void
     {
         echo "registration test\n";
