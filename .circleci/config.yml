@@ -45,6 +45,10 @@ jobs:
             add-apt-repository --yes "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
             apt install docker-ce docker-ce-cli containerd.io -y
       - checkout
+      - run:
+          name: "Run composer"
+          command: cd src && ls -la && php composer.phar update
+
       - setup_remote_docker
       - run:
           name: "Build images of services declared in docker-compose.yml"
@@ -52,9 +56,6 @@ jobs:
       - run:
           name: "Start all services declared in docker"
           command: /usr/local/bin/docker-compose up -d
-      - run:
-          name: "Run composer"
-          command: cd src && ls -la && php composer.phar update
       - run:
           name: "Docker PS"
           command: docker ps
