@@ -53,12 +53,12 @@ jobs:
       - run:
           name: "Docker PS"
           command: docker ps
-      - run:
-          name: "List Directory NGINX"
-          command: /usr/bin/docker exec  project-nginx-1 sh -c "cd  /var/www; ls -la"
-      - run:
-          name: "List Directory Root"
-          command: /usr/bin/docker exec  project-php-fpm-1 sh -c "ls -la"
+#      - run:
+#          name: "List Directory NGINX"
+#          command: /usr/bin/docker exec  project-nginx-1 sh -c "cd  /var/www; ls -la"
+#      - run:
+#          name: "List Directory Root"
+#          command: /usr/bin/docker exec  project-php-fpm-1 sh -c "ls -la"
       - run:
           name: "Composer Update"
           command: /usr/bin/docker exec project-php-fpm-1 sh -c "php composer.phar update"
