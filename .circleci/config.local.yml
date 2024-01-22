@@ -3,6 +3,7 @@ orbs:
   docker: circleci/docker@2.4.0
 jobs:
   build:
+    working_directory: /Users/gcuevas/Sites/testapp
     docker:
       - image: ubuntu:jammy
     steps:
