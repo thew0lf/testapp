@@ -7,14 +7,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class RegistrationControllerTest extends WebTestCase
 {
 
-    public function getRegistrationForm(): void
+    public function testGetRegistrationFormValid(): void
     {
+        $client = static::createClient();
+        $client->request('GET', '/registration');
+        $this->assertResponseStatusCodeSame(200, $client->getResponse()->getStatusCode());
 
     }
 
     public function testRegistrationFormValid(): void
     {
-        echo "registration test\n";
         $client = self::createClient();
         $crawler = $client->request('GET', '/registration');
         $form = $crawler->filter('main form')->form([

@@ -1,0 +1,75 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/ci-projects
+    docker:
+      - image: cimg/php:8.2
+    steps:
+      - run: php --version
+      - run: php -m
+      - run:
+          name: "Configure System"
+          environment:
+            TZ: "UTC"
+            DEBIAN_FRONTEND: "noninteractive"
+          command:  sudo -E install-php-extensions mongodb xdebug && docker-php-ext-enable mongodb xdebug
+
+      #          environment:
+      #            TZ: "UTC"
+      #            DEBIAN_FRONTEND: "noninteractive"
+      #          command: |
+      #            apk --update \
+      #                --no-cache \
+      #                add git make g++ autoconf rabbitmq-c-dev libtool tzdata icu-dev libzip-dev linux-headers libsodium-dev docker docker-compose openrc \
+      #              && docker-php-ext-enable sodium \
+      #              && pecl install mongodb \
+      #              && docker-php-ext-enable mongodb \
+      #              && pecl install xdebug \
+      #              && docker-php-ext-enable xdebug \
+      #              && pecl install zip \
+      #              && docker-php-ext-enable zip \
+      #              && pecl clear-cache \
+      #              && docker-php-ext-configure intl \
+      #              && docker-php-ext-install intl \
+      #              && docker-php-ext-enable intl.so
+      - checkout
+      - setup_remote_docker
+      - run: php -m
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: "Install Dependencies"
+          command: cd src; composer install -n --prefer-dist
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      #      - run:
+      #          name: "Run tests"
+      #          command: cd src; composer test ./tests
+
+      - run:
+          name: "Build images of services declared in docker-compose.yml"
+          command: sudo -E bash -c 'sudo docker-compose build'
+      - run:
+          name: "Start all services declared in docker"
+          command: sudo -E bash -c 'sudo docker-compose up -d'
+      - run:
+          name: "Docker PS"
+          command: sudo docker ps
+  deploy:
+    docker:
+      - image: amazonlinux:2023
+    steps:
+      - run: echo "deploy"
+workflows:
+  build_test_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build

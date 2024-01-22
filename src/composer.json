@@ -70,6 +70,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "test": [
+            "./vendor/bin/phpunit"
         ]
     },
     "conflict": {

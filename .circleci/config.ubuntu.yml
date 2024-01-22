@@ -1,6 +1,9 @@
 version: 2.1
+orbs:
+  docker: circleci/docker@2.4.0
 jobs:
   build:
+    working_directory: /Users/gcuevas/Sites/testapp
     docker:
       - image: ubuntu:jammy
     steps:
@@ -15,10 +18,12 @@ jobs:
             locale-gen en_US.UTF-8
             export LANG=en_US.UTF-8
             export LC_ALL=en_US.UTF-8
-            apt -y install ca-certificates curl gnupg lsb-release apt-transport-https software-properties-common &&\
+            apt -y install ca-certificates curl git gnupg lsb-release apt-transport-https software-properties-common &&\
             add-apt-repository ppa:ondrej/php -y && \
             apt -y install php8.2 
             apt -y install php8.2-{xml,xdebug,zip,curl,bz2,mbstring,intl,mongodb}
+      - checkout
+      - setup_remote_docker
       - run:
           name: "Install Docker Compose"
           environment:
@@ -30,36 +35,69 @@ jobs:
             chmod +x /usr/local/bin/docker-compose
             echo "127.0.0.1	mongo" >> /etc/hosts
       - run:
-          name: "Install Docker Compose"
+          name: "Install Docker"
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+            TZ: 'UTC/GMT'
+            DEBIAN_FRONTEND: "noninteractive"
           command: |
-            apt install apt-transport-https curl gnupg-agent ca-certificates software-properties-common -y
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add
-            add-apt-repository --yes "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-            apt-get docker-ce docker-ce-cli containerd.io -y
-      - checkout
-      - run:
-          name: "Run composer"
-          command: cd src && ls -la && php composer.phar update
-
-      - setup_remote_docker
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg |  gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+            apt update
+            apt-cache policy docker-ce
+            echo "Y" | apt install docker-ce
+#      - checkout
+#      - run:
+#          name: "Run composer"
+#          command: cd src && ls -la && php composer.phar update
       - run:
           name: "Build images of services declared in docker-compose.yml"
           command: /usr/local/bin/docker-compose build
       - run:
           name: "Start all services declared in docker"
           command: /usr/local/bin/docker-compose up -d
+#      - run:
+#          name: "Docker PS"
+#          command: docker ps
+      #      - run:
+      #          name: "List Directory NGINX"
+      #          command: /usr/bin/docker exec  project-nginx-1 sh -c "cd  /var/www; ls -la"
+      #      - run:
+      #          name: "List Directory Root"
+      #          command: /usr/bin/docker exec  project-php-fpm-1 sh -c "ls -la"
+#      - run:
+#          name: "Composer Update"
+#          command: /usr/bin/docker exec project-php-fpm-1 sh -c "ls -la;"
+#      - run:
+#          name: "Composer Update"
+#          command: /usr/bin/docker exec project-php-fpm-1 sh -c "php composer.phar update"
+#      - run:
+#          name: "Run Unit Tests"
+#          command: /usr/bin/docker exec project-php-fpm-1 sh -c "./vendor/bin/phpunit ./tests"
       - run:
-          name: "Docker PS"
-          command: docker ps
+          name: "Directory Listing"
+          command: ls -la;
       - run:
-          name: "Composer Update"
-          command: /usr/bin/docker exec project-php-fpm-1 sh -c "ls -la;"
+          name: "Run Composer Update"
+          command: cd src; php composer.phar update
+#      - run:
+#          name: "Run Unit Tests"
+#          command: cd src; ./vendor/bin/phpunit ./tests
+  #      - run:
+  #          name: "List Directory Root"
+  #          command:
+  #            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "cd /; ls -la"
+  #      - run:
+  #          name: "Docker PWD"
+  #          command:
+  #            /usr/bin/docker exec --workdir /var/www/ project-php-fpm-1 sh -c "pwd"
+  #      - run:
+  #          name: "Docker Dir"
+  #          command:
+  #            /usr/bin/docker exec --workdir /var/www/ testapp-php-fpm-1 sh -c "cd /var/www/; ls -la"
       - run:
-          name: "Composer Update"
-          command: /usr/bin/docker exec project-php-fpm-1 sh -c "php composer.phar update"
-      - run:
-          name: "Run Unit Tests"
-          command: /usr/bin/docker exec project-php-fpm-1 sh -c "./vendor/bin/phpunit ./tests"
+          name: "Docker Execs"
+          command: /usr/bin/docker exec --workdir /var/www/ testapp-php-fpm-1 sh -c "cd  /var/www/; php ./vendor/bin/phpunit ./tests"
   deploy:
     docker:
       - image: amazonlinux:2023
